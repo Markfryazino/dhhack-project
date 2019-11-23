@@ -37,8 +37,11 @@ def prepare_group(mypath):
                 full += ' ' + word
                 wordset.add(word)
         print(filepath)
+    wordmap = {}
+    for word in wordset:
+        wordmap[word] = part_of_speech(word)
 
-    return docs, wordset, full
+    return docs, wordset, full, wordmap
 
 
 def make_tfidf(fulls):
@@ -58,11 +61,14 @@ def choose_by_tfidf(fnames, tfidf, word, coef=2):
         return False
 
 
-def select_by_cos(word, sets, model, tfidf, fnames, coef):
+def select_by_cos(word, sets, maps, model, tfidf, fnames, coef):
     best = '0'
+    part = part_of_speech(word)
     best_res = -100
     for gword in sets[0]:
         try:
+            if part != maps[0][gword]:
+                continue
             score = model.wv.similarity(word, gword)
             if score > best_res:
                 bad = choose_by_tfidf(fnames, tfidf, gword, coef)
@@ -90,20 +96,22 @@ def part_production(string, model, sets, fnames, tfidf, coef):
 
 
 def pipeline(wor=4):
-    docs_c, wordset_c, full_c = prepare_group('./books/classic')
-    docs_t, wordset_t, full_t = prepare_group('./books/trash')
+    docs_c, wordset_c, full_c, wordmap_c = prepare_group('./books/classic')
+    docs_t, wordset_t, full_t, wordmap_t = prepare_group('./books/trash')
 
     texts = docs_c + docs_t
     fulls = [full_c, full_t]
     sets = [wordset_c, wordset_t]
+    maps = [wordmap_c, wordmap_t]
 
     model = gensim.models.Word2Vec(texts, size=100, iter=10, workers=wor, min_count=2, window=5, sg=0, hs=1,
                                    negative=2, cbow_mean=1)
     npidf, fnames = make_tfidf(fulls)
-    return docs_c, wordset_c, full_c, docs_t, wordset_t, full_t, texts, fulls, sets, model, npidf, fnames
+    return docs_c, wordset_c, full_c, docs_t, wordset_t, full_t, \
+           texts, fulls, sets, maps, model, npidf, fnames
 
 
-def one_word_production(word, model, sets, fnames, tfidf, coef):
+def one_word_production(word, model, sets, maps, fnames, tfidf, coef):
     primal = word
     stem = pymystem3.Mystem()
     proc = stem.lemmatize(word)[0]
@@ -111,14 +119,23 @@ def one_word_production(word, model, sets, fnames, tfidf, coef):
     if word == '':
         return 0, primal
     if choose_by_tfidf(fnames, tfidf, word):
-        chose, pos = select_by_cos(word, sets, model, tfidf, fnames, coef)
+        chose, pos = select_by_cos(word, sets, maps, model, tfidf, fnames, coef)
         return 1, chose
     else:
         return 0, primal
 
-def production(string, model, sets, fnames, tfidf, coef):
+def production(string, model, sets, maps, fnames, tfidf, coef):
     final = []
     for word in string.split():
-        num, choice = one_word_production(word, model, sets, fnames, tfidf, coef)
+        num, choice = one_word_production(word, model, sets, maps, fnames, tfidf, coef)
         final.append((num, choice))
     return final
+
+def part_of_speech(word):
+    m = Mystem()
+    lemmas = m.lemmatize(word)[0]
+    part = m.analyze(word)[0]['analysis'][0]['gr'].replace('=', ',').split(',')[0]
+    if part == 'A' or part == 'V' or part == 'ADV' or part == 'S':
+        return part
+    else:
+        return 'Other'
