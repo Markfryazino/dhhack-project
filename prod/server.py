@@ -26,7 +26,7 @@ class AnalyzeFile(Resource):
         text = file.read().decode('utf-8')
         text = text.replace('\n', '<br>')
         file_index += 1
-        a = production(text, model, sets, fnames, tfidf, 2)
+        a = production(text, model, sets, fnames, tfidf, 1)
         print(a)
         return jsonify({'data': a})
 

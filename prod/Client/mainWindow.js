@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
     })[0];
     slider.pause();
     backToMenu.addEventListener('click', () => {
-        fileElem.innerHTML = fileElem.innerHTML;
+        fileElem.value = null;
         slider.set(0);
         slider.pause();
     });

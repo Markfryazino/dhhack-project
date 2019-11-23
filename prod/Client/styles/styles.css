@@ -1,10 +1,17 @@
 #drop-area {
     height: 300px;
+    width: 600px;
+    margin: auto;
+    display: block;
     background: rgb(181, 222, 255);
     color: rgb(0, 89, 141);
     border: 3px dashed rgb(0, 89, 141);
     border-radius: 16px;
     transition: all .2s ease;
+}
+
+.my-form {
+    margin-top: 15%;
 }
 
 #back-to-menu {
@@ -21,8 +28,7 @@
     background: rgb(232, 235, 241);
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.4) inset;
     display: block;
-    min-height: 600px;
-    max-height: 600px;
+    height: 600px;
     border-radius: 8px;
     padding: 0 16px 0 16px;
     font-size: 16px;
