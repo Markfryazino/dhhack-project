@@ -41,7 +41,7 @@ def prepare_group(mypath):
     return docs, wordset, full
 
 
-def make_tfidf():
+def make_tfidf(fulls):
     vec = TfidfVectorizer()
     tfidf = vec.fit_transform(fulls)
     npidf = tfidf.toarray()
@@ -49,34 +49,76 @@ def make_tfidf():
     return  npidf, fnames
 
 
-def choose_by_tfidf(fnames, tfidf, word):
+def choose_by_tfidf(fnames, tfidf, word, coef=2):
     try:
         index = fnames.index(word)
-        idf = npidf[:, index]
-        return idf[1] > 100 * idf[0]
+        idf = tfidf[:, index]
+        return idf[1] > coef * idf[0]
     except:
         return False
 
-def select_by_cos(word, sets, model):
+
+def select_by_cos(word, sets, model, tfidf, fnames):
     best = '0'
     best_res = -100
     for gword in sets[0]:
-        score = model.wv.similarity(word, gword)
-        if score > best_res:
-            best_res = score
-            best = gword
+        try:
+            score = model.wv.similarity(word, gword)
+            if score > best_res:
+                bad = choose_by_tfidf(fnames, tfidf, gword, coef=1)
+                if not bad:
+                    best_res = score
+                    best = gword
+        except:
+            pass
     return best, best_res
 
 
-def production(string, model, texts, fulls, sets, fnames, tfidf):
+def part_production(string, model, sets, fnames, tfidf):
+    start = string.split()
     res = []
     stem = pymystem3.Mystem()
     proc = stem.lemmatize(string)
     corpus = [re.sub(r'[^\w\s]', '', el) for el in proc]
     corpus = [el for el in corpus if el.strip() != '']
 
-    for word in corpus:
+    for i, word in enumerate(corpus):
         if choose_by_tfidf(fnames, tfidf, word):
-            chose, pos = select_by_cos(word, sets, model)
-            res.append([word, chose, pos])
+            chose, pos = select_by_cos(word, sets, model, tfidf, fnames)
+            res.append([word, chose, i])
     return res
+
+
+def pipeline():
+    docs_c, wordset_c, full_c = prod.prepare_group('./books/classic')
+    docs_t, wordset_t, full_t = prod.prepare_group('./books/trash')
+
+    texts = docs_c + docs_t
+    fulls = [full_c, full_t]
+    sets = [wordset_c, wordset_t]
+
+    model = gensim.models.Word2Vec(texts, size=100, iter=10, workers=4, min_count=2, window=5, sg=0, hs=1,
+                                   negative=2, cbow_mean=1)
+    npidf, fnames = prod.make_tfidf(fulls)
+    return docs_c, wordset_c, full_c, docs_t, wordset_t, full_t, texts, fulls, sets, model, npidf, fnames
+
+
+def one_word_production(word, model, sets, fnames, tfidf):
+    primal = word
+    stem = pymystem3.Mystem()
+    proc = stem.lemmatize(string)[0]
+    word = proc.strip()
+    if word == '':
+        return 0, primal
+    if choose_by_tfidf(fnames, tfidf, word):
+        chose, pos = select_by_cos(word, sets, model, tfidf, fnames)
+        return 1, chose
+    else:
+        return 0, primal
+
+def production(string, model, sets, fnames, tfidf):
+    final = []
+    for word in string.split():
+        num, choice = one_word_production(word, model, sets, fnames, tfidf)
+        final.append((num, choice))
+    return final
