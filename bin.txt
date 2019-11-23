@@ -1,0 +1,27 @@
+texts = []
+fulls = []
+sets = []
+
+mystem = pymystem3.Mystem()
+
+for group in [['./books/trash/lullaby.txt']]:
+    docs = []
+    full = ''
+    for book in group:
+        corpus = []
+        with open(book) as file:
+            for line in file:
+                corpus.append(line)
+
+        corpus = [el for el in corpus if el != '\n']
+        corpus = [re.sub(r'[^\w\s]','',el)[:-1] for el in corpus]
+        for sentence in corpus:
+            full += ' ' + sentence
+        docs += [el.lower().split() for el in corpus]
+        
+    words = []
+    for sentence in docs:
+        words += sentence
+    sets.append(set(words))
+    texts += docs
+    fulls.append(full)
