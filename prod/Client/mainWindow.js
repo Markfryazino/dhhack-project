@@ -93,14 +93,14 @@ function uploadFile(file) {
                     data = body.data;
                     text = '<p>Оригинальный текст:</p>\n<p>';
                     changed_text = '<p>'
-                    for (let [changed, word] of data) {
-                        console.log(changed, word);
+                    for (let [changed, new_word, old_word] of data) {
+                        console.log(changed, new_word, old_word);
                         if (changed) {
-                            text += `<mark title="${word}">${word}</mark> `;
+                            text += `<mark title="${new_word}">${old_word}</mark> `;
                         } else {
-                            text += word + ' ';
+                            text += old_word + ' ';
                         }
-                        changed_text += word + ' ';
+                        changed_text += new_word + ' ';
                     }
                     text += '</p>\n<br>\n<br>\n<br>\n'
                     text += '<p>Предлагаемый изменённый текст:</p>'

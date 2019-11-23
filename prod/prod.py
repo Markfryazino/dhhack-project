@@ -132,5 +132,5 @@ def production(string, model, sets, fnames, tfidf, coef):
     for word in string.split():
         num, choice = one_word_production(
             word, model, sets, fnames, tfidf, coef)
-        final.append((num, choice))
+        final.append((num, choice, word))
     return final
