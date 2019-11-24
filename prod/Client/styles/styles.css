@@ -2,8 +2,6 @@ html {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 
-body {}
-
 #drop-area-wrapper {
     height: 320px;
     width: 620px;
@@ -27,11 +25,11 @@ body {}
     top: -8px;
     left: 10px;
     display: block;
-    background: rgb(239, 244, 246);
+    background: rgb(229, 234, 236);
     /* background: linear-gradient(121deg, rgba(54, 34, 195, 1) 0%, rgba(229, 0, 255, 1) 100%); */
     color: #333;
     border-radius: 26px;
-    box-shadow: inset 0 0 16px -4px rgba(0, 0, 0, 0.15);
+    box-shadow: inset 4px 4px 18px -12px rgba(0, 0, 0, 0.3), inset -4px -4px 16px -6px rgba(255, 255, 255, 1);
 }
 
 #drop-area.highlight {
@@ -75,11 +73,11 @@ body {}
     content: ' ';
     display: block;
     background: rgb(235, 235, 240);
-    box-shadow: -12px -12px 24px 0 rgba(193, 205, 255, 0.4), 12px 12px 24px 0 rgba(59, 59, 59, 0.25);
+    box-shadow: -8px -8px 24px 0 rgba(193, 205, 255, 0.4), 8px 8px 24px 0 rgba(59, 59, 59, 0.25);
     border-radius: 24px;
     font-size: 16px;
-    height: 600px;
-    width: 1100px;
+    height: 616px;
+    width: 1116px;
     box-sizing: border-box;
 }
 
@@ -184,6 +182,7 @@ mark {
     height: 184px;
     border-radius: 20px;
     box-shadow: inset 0 0 16px -4px rgba(0, 0, 0, 0.15);
+    box-shadow: inset 4px 4px 18px -12px rgba(0, 0, 0, 0.3), inset -4px -4px 16px -6px rgba(255, 255, 255, 1);
     text-align: center;
 }
 
@@ -208,18 +207,18 @@ mark {
     0% {
         transform: rotate(0deg);
         border: 12px solid rgba(54, 34, 195, 1);
-        border-top: 12px solid rgb(255, 208, 0);
+        border-top: 12px solid rgb(255, 179, 0);
     }
 
     50% {
         border: 12px solid rgb(204, 0, 255);
-        border-top: 12px solid rgb(251, 255, 0);
+        border-top: 12px solid rgb(255, 179, 0);
     }
 
     100% {
         transform: rotate(359deg);
         border: 12px solid rgba(54, 34, 195, 1);
-        border-top: 12px solid rgb(255, 208, 0);
+        border-top: 12px solid rgb(255, 179, 0);
     }
 }
 
