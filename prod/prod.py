@@ -59,14 +59,14 @@ def choose_by_tfidf(fnames, tfidf, word, coef=2):
         return False
 
 
-def select_by_cos(word, sets, model, tfidf, fnames, coef):
+def select_by_cos(word, sets, model, tfidf, fnames, coef, coef2):
     best = '0'
     best_res = -100
     for gword in sets[0]:
         try:
             score = model.wv.similarity(word, gword)
             if score > best_res:
-                bad = choose_by_tfidf(fnames, tfidf, gword, coef)
+                bad = choose_by_tfidf(fnames, tfidf, gword, coef2)
                 if not bad:
                     best_res = score
                     best = gword
@@ -75,7 +75,7 @@ def select_by_cos(word, sets, model, tfidf, fnames, coef):
     return best, best_res
 
 
-def part_production(string, model, sets, fnames, tfidf, coef):
+def part_production(string, model, sets, fnames, tfidf, coef, coef2):
     start = string.split()
     res = []
     stem = pymystem3.Mystem()
@@ -85,7 +85,7 @@ def part_production(string, model, sets, fnames, tfidf, coef):
 
     for i, word in enumerate(corpus):
         if choose_by_tfidf(fnames, tfidf, word):
-            chose, pos = select_by_cos(word, sets, model, tfidf, fnames, coef)
+            chose, pos = select_by_cos(word, sets, model, tfidf, fnames, coef, coef2)
             res.append([word, chose, i])
     return res
 
@@ -97,7 +97,7 @@ def pipeline(wor=8):
 
     docs_c, wordset_c, full_c = prepare_group('./books/classic')
     docs_t, wordset_t, full_t = prepare_group('./books/trash')
-    stops = set(stopwords.words('russian'))
+    stops = set(stopwords.words('russian')) + {'тыто'}
     texts = docs_c + docs_t
     fulls = [full_c, full_t]
     sets = [wordset_c - stops, wordset_t - stops]
@@ -107,7 +107,7 @@ def pipeline(wor=8):
         size=100,
         iter=10,
         workers=wor,
-        min_count=2,
+        min_count=3,
         window=5,
         sg=0,
         hs=1,
@@ -118,7 +118,7 @@ def pipeline(wor=8):
         texts, fulls, sets, model, npidf, fnames
 
 
-def one_word_production(word, model, sets, fnames, tfidf, coef):
+def one_word_production(word, model, sets, fnames, tfidf, coef, coef2):
     primal = word
     stem = pymystem3.Mystem()
     proc = stem.lemmatize(word)[0]
@@ -126,16 +126,16 @@ def one_word_production(word, model, sets, fnames, tfidf, coef):
     if word == '':
         return 0, primal
     if choose_by_tfidf(fnames, tfidf, word):
-        chose, pos = select_by_cos(word, sets, model, tfidf, fnames, coef)
+        chose, pos = select_by_cos(word, sets, model, tfidf, fnames, coef, coef2)
         return 1, chose
     else:
         return 0, primal
 
 
-def production(string, model, sets, fnames, tfidf, coef):
+def production(string, model, sets, fnames, tfidf, coef, coef2):
     final = []
     for word in string.split():
         num, choice = one_word_production(
-            word, model, sets, fnames, tfidf, coef)
+            word, model, sets, fnames, tfidf, coef, coef2)
         final.append((num, choice, word))
     return final
