@@ -4,6 +4,7 @@ import gensim
 from sklearn.feature_extraction.text import TfidfVectorizer
 import re
 import os
+import nltk
 
 
 def prepare_group(mypath):
@@ -89,13 +90,17 @@ def part_production(string, model, sets, fnames, tfidf, coef):
     return res
 
 
-def pipeline(wor=4):
+def pipeline(wor=8):
+    nltk.download('stopwords')
+
+    from nltk.corpus import stopwords
+
     docs_c, wordset_c, full_c = prepare_group('./books/classic')
     docs_t, wordset_t, full_t = prepare_group('./books/trash')
-
+    stops = set(stopwords.words('russian'))
     texts = docs_c + docs_t
     fulls = [full_c, full_t]
-    sets = [wordset_c, wordset_t]
+    sets = [wordset_c - stops, wordset_t - stops]
 
     model = gensim.models.Word2Vec(
         texts,
