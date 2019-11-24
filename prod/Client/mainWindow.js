@@ -5,6 +5,7 @@ let slider;
 let textField;
 let backToMenu;
 let fileElem;
+let loader;
 
 document.addEventListener('DOMContentLoaded', function () {
     var elems = document.querySelectorAll('.slider');
@@ -12,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     textField = document.getElementById('text-field');
     backToMenu = document.getElementById('back-to-menu');
     fileElem = document.getElementById('fileElem');
+    loader = document.getElementById('loader-wrapper');
     slider = instances = M.Slider.init(elems, {
         duration: 500,
         interval: 0,
@@ -80,6 +82,7 @@ function uploadFile(file) {
         alert('Ты дебил? Я текст анализирую, нахер ты мне какую-то парашу тут суешь?! А ну быстро свалил с глаз моих и пока текстовый файл не притащишь, не возвращайся!');
         return;
     }
+    loader.classList.add('active');
     let url = 'http://127.0.0.1:1337/api/analyze_file'
     let formData = new FormData();
     formData.append('file', file);
@@ -106,6 +109,7 @@ function uploadFile(file) {
                     text += '<p>Предлагаемый изменённый текст:</p>'
                     text += changed_text;
                     textField.innerHTML = text;
+                    loader.classList.remove('active');
                     slider.set(1);
                     slider.pause();
                 })

@@ -16,35 +16,78 @@
     <div class="slider fullscreen">
         <ul class="slides">
             <li>
-                <div class="container valign-wrapper" style="height: 100%">
-                    <div class="row">
-                        <div class="col s12">
-                            <div class="file-reciever valign-wrapper center-align" id="drop-area">
-                                <form class="my-form">
-                                    <p>Загрузите файл, который нужно проанализировать, с помощью кнопочки или
-                                        перетащив
-                                        его в
-                                        выделенную область</p>
-                                    <input type="file" id="fileElem" multiple accept="text/*"
-                                        onchange="handleFiles(this.files)">
-                                    <label class="button" for="fileElem">Выбрать файл</label>
-                                </form>
-                            </div>
+                <div id="loader-wrapper">
+                    <div id="loader">
+                        <div id="spinner-wrapper">
+                            <p>Идёт, обработка текста, пожалуйста, подождите...</p>
+                            <div id="spinner"></div>
                         </div>
+                    </div>
+                </div>
+                <div id="drop-area-wrapper">
+                    <div class="file-reciever valign-wrapper center-align" id="drop-area">
+                        <form class="my-form">
+                            <p>Загрузите файл, который нужно проанализировать, с помощью кнопочки, или
+                                перетащив его в выделенную область</p>
+                            <input type="file" id="fileElem" multiple accept="text/*"
+                                onchange="handleFiles(this.files)">
+                            <br>
+                            <label class="button" for="fileElem">Выбрать файл</label>
+                        </form>
                     </div>
                 </div>
             </li>
             <li>
-                <a class="waves-effect waves-dark btn-flat black-text" id="back-to-menu">
+                <a class="waves-effect waves-dark btn-flat white-text" id="back-to-menu">
                     <i class="material-icons left">keyboard_arrow_left</i>
                     Назад в меню
                 </a>
-                <div class="container valign-wrapper" style="height: 100%">
-                    <div class="row">
-                        <div class="col s12">
-                            <div id="text-field">
-                            </div>
-                        </div>
+                <div id="text-field-wrapper">
+                    <div id="text-field">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus aut iure quis id.
+                        Ipsum qui rem numquam tempora non nihil fugiat aliquid expedita sed cupiditate harum
+                        aliquam, maxime itaque omnis, deleniti ipsam! Mollitia laborum ducimus optio aut iure
+                        provident. Quis earum nemo asperiores consectetur nostrum autem inventore quaerat, animi
+                        nobis voluptatem eum eaque assumenda quibusdam libero harum nulla sit sequi perferendis
+                        qui. Recusandae atque maxime ex delectus blanditiis, at consequatur illo voluptates
+                        optio suscipit, ipsa distinctio enim facere provident, itaque quod esse! Minus a eum
+                        deleniti soluta obcaecati mollitia, officiis repudiandae optio quisquam exercitationem
+                        ipsam dicta veniam libero vel dolorem explicabo aspernatur nisi perferendis! Corporis
+                        beatae distinctio quibusdam quae, mollitia ipsam cupiditate dolorum eum consequatur
+                        consequuntur rem, fugit tenetur, et debitis dolore labore doloribus sint deserunt
+                        voluptates blanditiis asperiores exercitationem? Nulla incidunt repellendus harum quis
+                        alias! Voluptatum dolores officiis sequi fugit id quaerat, quas quisquam quam eos at
+                        perferendis quidem autem voluptates atque dolore. Nesciunt blanditiis at atque quis,
+                        vitae minus doloribus rerum ullam enim voluptatem placeat velit quibusdam cupiditate
+                        saepe, magnam corrupti inventore facere, accusantium possimus corporis. Voluptatum
+                        tenetur rerum eius architecto, iure est maxime maiores ut repellat deserunt aut beatae,
+                        praesentium commodi voluptas similique repellendus? Laudantium eveniet velit magnam!
+                        Corrupti commodi, vitae libero rerum consectetur aspernatur a corporis. Libero neque
+                        quasi fuga necessitatibus suscipit porro doloremque repellendus iure assumenda? Aut
+                        nobis quasi harum mollitia similique ad quibusdam? Ullam eaque quidem inventore error
+                        tenetur porro amet, consectetur, ea maxime, laborum voluptas incidunt et veniam totam ex
+                        dignissimos? Asperiores quidem corrupti delectus doloribus alias fugiat accusantium qui,
+                        earum sed architecto quam reprehenderit quas voluptates ullam corporis consequatur. Quo
+                        corporis illum rerum fugit ratione facere, quos molestiae odit libero vero eos possimus
+                        rem ut, magni, eius at minima nam quibusdam necessitatibus tempora enim dolorem!
+                        Officia, aperiam amet qui quos animi aliquam tenetur voluptatem ipsam, omnis eaque,
+                        aliquid perspiciatis praesentium inventore soluta optio labore dolore libero harum quod
+                        possimus laborum ea ducimus sint officiis. Ut porro provident non hic tempore in ratione
+                        repudiandae quaerat maxime accusantium illum nulla, ullam soluta adipisci optio sint!
+                        Reiciendis, quasi modi. Eos sunt, non ratione deleniti provident quos itaque nesciunt
+                        voluptatum fuga perferendis magnam. Omnis dolorum neque iusto architecto cupiditate
+                        voluptatum nobis est explicabo, perspiciatis hic, laborum laudantium culpa repudiandae
+                        beatae libero! Sint ex commodi possimus vel quaerat officiis iste dolorum nesciunt
+                        deleniti, quo et, rerum accusantium optio facilis fugiat iure reprehenderit laudantium
+                        excepturi aspernatur quia. Ab similique minus placeat tenetur possimus qui, nemo laborum
+                        hic nulla ducimus eos officia molestias. Obcaecati officiis odio provident architecto
+                        cum molestiae sapiente vitae tempora quae, ut omnis quos! Expedita magnam incidunt,
+                        natus perspiciatis repellat atque minima et omnis quidem saepe eos enim ut reprehenderit
+                        delectus quam aspernatur aut doloribus commodi ullam nesciunt tempore fugiat esse!
+                        Asperiores suscipit assumenda tempore nam commodi omnis eos quos, quod beatae, natus
+                        vel, possimus dignissimos totam a modi recusandae iure neque error fugit iusto odio rem
+                        ullam magni? Quos temporibus quibusdam reiciendis voluptatum vel numquam beatae delectus
+                        asperiores! Voluptatem eos repellat pariatur sed, voluptatum maxime.
                     </div>
                 </div>
             </li>
