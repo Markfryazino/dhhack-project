@@ -1,2 +1,3 @@
 # dhhack-project
-Repository containing our solution for DH-Hack hackathon held by Croc.
+
+This repository contains the project of 'AMI number' team that was created during the Digital Humanities hackathon in November 2019.
